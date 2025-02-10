@@ -1,0 +1,1 @@
+{"version":3,"file":"client.js","sourceRoot":"","sources":["../../src/trpc/client.ts"],"names":[],"mappings":";;;AAAA,mDAAyE;AAEzE,0CAA0C;AAE1C,MAAM,OAAO,GAAG,uEAAuE,CAAC;AAE3E,QAAA,IAAI,GAAG,IAAA,mCAAqB,EAAY;IACnD,KAAK,EAAE;QACL,IAAA,2BAAa,EAAC;YACZ,GAAG,EAAE,OAAO;SACb,CAAC;KACH;CACF,CAAC,CAAC"}
