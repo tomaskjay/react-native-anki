@@ -3,13 +3,13 @@ import { initializeApp } from "firebase/app";
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyC7NI_2R-dgWw5F32SiS8PYAWrIdkSZtfc",
-  authDomain: "react-native-anki.firebaseapp.com",
-  projectId: "react-native-anki",
-  storageBucket: "react-native-anki.firebasestorage.app",
-  messagingSenderId: "954417309791",
-  appId: "1:954417309791:web:9c04397642ddb6df6453ea",
-  measurementId: "G-SYRXFH648N"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
@@ -34,8 +34,8 @@ export async function createDeck(userId: string, deckId: string, title: string) 
 export async function createFlashcard(userId: string, deckId: string, cardId: string, question: string, answer: string) {
   const flashcardRef = doc(firestore, `users/${userId}/decks/${deckId}/flashcards/${cardId}`);
   await setDoc(flashcardRef, {
-    front,
-    back,
+    question,
+    answer,
     nextReview: new Date(),
     easeFactor: 2.5,
     interval: 1,
