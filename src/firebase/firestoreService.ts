@@ -42,3 +42,15 @@ export async function createFlashcard(userId: string, deckId: string, cardId: st
     repetition: 0
   });
 }
+
+async function setupExample() {
+  const userId = "user123";
+  const deckId = "deck123";
+  const cardId = "card123";
+
+  await createUser(userId);
+  await createDeck(userId, deckId, "My First Deck");
+  await createFlashcard(userId, deckId, cardId, "What is Firestore?", "A NoSQL document database built for automatic scaling, high performance, and ease of application development.");
+}
+
+setupExample();
