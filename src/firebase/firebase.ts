@@ -1,4 +1,3 @@
-// filepath: /c:/Users/Tomas/OneDrive/Projects/react-native-anki/flashcards-app/firebase.ts
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
