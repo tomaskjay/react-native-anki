@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
@@ -27,10 +27,12 @@ export default function HomeScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerContent={
-        <ThemedText type="title" style={styles.headerTitle}>
-          Flashcards
-        </ThemedText>
+      headerImage={
+        <View style={styles.headerContainer}>
+          <ThemedText type="title" style={styles.headerTitle}>
+            Flashcards
+          </ThemedText>
+        </View>
       }>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.welcomeSection}>
@@ -86,6 +88,11 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     gap: 20,
+  },
+  headerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerTitle: {
     textAlign: 'center',
