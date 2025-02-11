@@ -76,7 +76,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity 
           style={styles.createButton}
-          onPress={() => router.push('/create')}>
+          onPress={() => router.push('/decks/create')}>
           <ThemedText style={styles.createButtonText}>Create New Cards</ThemedText>
         </TouchableOpacity>
       </ThemedView>
