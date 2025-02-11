@@ -36,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "REACT_APP_FIREBASE_API_KEY": "AIzaSyC7NI_2R-dgWw5F32SiS8PYAWrIdkSZtfc",
+      "REACT_APP_FIREBASE_AUTH_DOMAIN": "react-native-anki.firebaseapp.com",
+      "REACT_APP_FIREBASE_PROJECT_ID": "react-native-anki",
+      "REACT_APP_FIREBASE_STORAGE_BUCKET": "react-native-anki.firebasestorage.app",
+      "REACT_APP_FIREBASE_MESSAGING_SENDER_ID": "954417309791",
+      "REACT_APP_FIREBASE_APP_ID": "1:954417309791:web:9c04397642ddb6df6453ea",
+      "REACT_APP_FIREBASE_MEASUREMENT_ID": "G-SYRXFH648N"
     }
   }
 }
