@@ -41,16 +41,16 @@ export async function createFlashcard(userId: string, deckId: string, cardId: st
   }
 }
 
-export async function setupExample() {
-  const userId = "user123";
-  const deckId = "deck123";
-  const cardId = "card123";
+// export async function setupExample() {
+//   const userId = "user123";
+//   const deckId = "deck123";
+//   const cardId = "card123";
 
-  console.log("Creating user...");
-  await createUser(userId);
-  console.log("Creating deck...");
-  await createDeck(userId, deckId, "My First Deck");
-  console.log("Creating flashcard...");
-  await createFlashcard(userId, deckId, cardId, "What is Firestore?", "A NoSQL document database built for automatic scaling, high performance, and ease of application development.");
-  console.log("Setup example completed.");
-}
+//   console.log("Creating user...");
+//   await createUser(userId);
+//   console.log("Creating deck...");
+//   await createDeck(userId, deckId, "My First Deck");
+//   console.log("Creating flashcard...");
+//   await createFlashcard(userId, deckId, cardId, "What is Firestore?", "A NoSQL document database built for automatic scaling, high performance, and ease of application development.");
+//   console.log("Setup example completed.");
+// }

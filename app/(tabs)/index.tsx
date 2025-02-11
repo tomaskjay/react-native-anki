@@ -1,74 +1,143 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import { TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
 
-import { HelloWave } from '@/src/components/HelloWave';
 import ParallaxScrollView from '@/src/components/ParallaxScrollView';
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
+import { useAuth } from '@/src/contexts/AuthContext';
+import { logout } from '@/src/firebase/authService';
 
 export default function HomeScreen() {
+  const { user } = useAuth();
+  
+  const { data: stats } = useQuery({
+    queryKey: ['stats'],
+    queryFn: async () => {
+      // TODO: Implement stats fetching
+      return {
+        totalCards: 0,
+        dueTodayCount: 0,
+        completedToday: 0
+      };
+    }
+  });
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
+      headerContent={
+        <ThemedText type="title" style={styles.headerTitle}>
+          Flashcards
+        </ThemedText>
       }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+      <ThemedView style={styles.container}>
+        <ThemedView style={styles.welcomeSection}>
+          <ThemedText type="title">Welcome back, {user?.email}!</ThemedText>
+          <TouchableOpacity 
+            style={styles.logoutButton} 
+            onPress={async () => {
+              try {
+                await logout();
+              } catch (error) {
+                console.error('Logout error:', error);
+              }
+            }}>
+            <ThemedText style={styles.logoutText}>Logout</ThemedText>
+          </TouchableOpacity>
+        </ThemedView>
+
+        <ThemedView style={styles.statsContainer}>
+          <ThemedText type="subtitle">Today's Overview</ThemedText>
+          <ThemedView style={styles.statsGrid}>
+            <ThemedView style={styles.statBox}>
+              <ThemedText type="defaultSemiBold">{stats?.dueTodayCount}</ThemedText>
+              <ThemedText>Cards Due</ThemedText>
+            </ThemedView>
+            <ThemedView style={styles.statBox}>
+              <ThemedText type="defaultSemiBold">{stats?.completedToday}</ThemedText>
+              <ThemedText>Completed</ThemedText>
+            </ThemedView>
+            <ThemedView style={styles.statBox}>
+              <ThemedText type="defaultSemiBold">{stats?.totalCards}</ThemedText>
+              <ThemedText>Total Cards</ThemedText>
+            </ThemedView>
+          </ThemedView>
+        </ThemedView>
+
+        <TouchableOpacity 
+          style={styles.studyButton}
+          onPress={() => router.push('/study')}>
+          <ThemedText style={styles.studyButtonText}>Start Studying</ThemedText>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.createButton}
+          onPress={() => router.push('/create')}>
+          <ThemedText style={styles.createButtonText}>Create New Cards</ThemedText>
+        </TouchableOpacity>
       </ThemedView>
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    padding: 16,
+    gap: 20,
+  },
+  headerTitle: {
+    textAlign: 'center',
+    fontSize: 24,
+    padding: 16,
+  },
+  welcomeSection: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  statsContainer: {
+    gap: 12,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  statsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  statBox: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  studyButton: {
+    backgroundColor: '#0a7ea4',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  studyButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  createButton: {
+    backgroundColor: '#34a853',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  createButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  logoutButton: {
+    padding: 8,
+  },
+  logoutText: {
+    color: '#dc3545',
   },
 });
