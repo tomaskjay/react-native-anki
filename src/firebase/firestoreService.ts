@@ -1,5 +1,8 @@
 import { doc, setDoc, collection, getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -12,35 +15,58 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
+async function testFirebase() {
+  try {
+    const testDocRef = doc(firestore, "test/testDoc");
+    await setDoc(testDocRef, { test: "testValue" });
+    console.log("Firebase configuration is correct. Test document created.");
+  } catch (error) {
+    console.error("Error testing Firebase configuration:", error);
+  }
+}
+
+testFirebase();
+
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
-
-// Function to create a user document
 export async function createUser(userId: string) {
-  const userRef = doc(firestore, `users/${userId}`);
-  await setDoc(userRef, { createdAt: new Date() });
+  try {
+    const userRef = doc(firestore, `users/${userId}`);
+    await setDoc(userRef, { createdAt: new Date() });
+    console.log("User created.");
+  } catch (error) {
+    console.error("Error creating user:", error);
+  }
 }
 
-// Function to create a deck document
 export async function createDeck(userId: string, deckId: string, title: string) {
-  const deckRef = doc(firestore, `users/${userId}/decks/${deckId}`);
-  await setDoc(deckRef, {
-    title,
-    createdAt: new Date()
-  });
+  try {
+    const deckRef = doc(firestore, `users/${userId}/decks/${deckId}`);
+    await setDoc(deckRef, {
+      title,
+      createdAt: new Date()
+    });
+    console.log("Deck created.");
+  } catch (error) {
+    console.error("Error creating deck:", error);
+  }
 }
 
-// Function to create a flashcard document
 export async function createFlashcard(userId: string, deckId: string, cardId: string, question: string, answer: string) {
-  const flashcardRef = doc(firestore, `users/${userId}/decks/${deckId}/flashcards/${cardId}`);
-  await setDoc(flashcardRef, {
-    question,
-    answer,
-    nextReview: new Date(),
-    easeFactor: 2.5,
-    interval: 1,
-    repetition: 0
-  });
+  try {
+    const flashcardRef = doc(firestore, `users/${userId}/decks/${deckId}/flashcards/${cardId}`);
+    await setDoc(flashcardRef, {
+      question,
+      answer,
+      nextReview: new Date(),
+      easeFactor: 2.5,
+      interval: 1,
+      repetition: 0
+    });
+    console.log("Flashcard created.");
+  } catch (error) {
+    console.error("Error creating flashcard:", error);
+  }
 }
 
 async function setupExample() {
@@ -48,8 +74,11 @@ async function setupExample() {
   const deckId = "deck123";
   const cardId = "card123";
 
+  console.log("Creating user...");
   await createUser(userId);
+  console.log("Creating deck...");
   await createDeck(userId, deckId, "My First Deck");
+  console.log("Creating flashcard...");
   await createFlashcard(userId, deckId, cardId, "What is Firestore?", "A NoSQL document database built for automatic scaling, high performance, and ease of application development.");
 }
 
